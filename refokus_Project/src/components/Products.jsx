@@ -41,7 +41,7 @@ const Products = () => {
   return (
     <div >
         {products.map((item, index) => {
-            return <Product key={index} title={item.title} description={item.description} live={item.live} case={item.case} />
+            return <Product key={index} title={item.title} description={item.description} live={item.live} caseProp={item.case} />
         })}
     </div>
   )

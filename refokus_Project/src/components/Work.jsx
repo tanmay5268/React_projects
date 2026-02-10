@@ -42,10 +42,10 @@ const Work = () => {
     return (
         <div className='w-full'>
             <div className='relative max-w-4xl text-center mt-10 mx-auto '>
-                <h1 className='text-[30vw] leading-none font-medium z-1 select-none cursor-default tracking-tight'>work.</h1>
+                <h1 className='text-[30vw] relative right-10 leading-none font-medium z-1 select-none cursor-default tracking-tight'>work</h1>
                 <div className='w-full h-full absolute top-0 left-0 '>
                     {images.map((elem, index) => (
-                        elem.isActive ? <img key={index} className='-translate-y-[30%] z-0  -translate-10   absolute w-52 rounded-lg' style={{top: elem.top, left: elem.left}} src={elem.url} alt="" /> :null
+                        elem.isActive ? <img key={index} className='`-translate-y-[30%] z-0  -translate-10   absolute w-52 rounded-lg' style={{top: elem.top, left: elem.left}} src={elem.url} alt="" /> :null
 
                     ))}
                 </div>
