@@ -10,7 +10,7 @@ const Navbar = () => {
           elem.length===0 ? <span className='w-px h-5 bg-zinc-800'></span> :
           <a key={index} className='uppercase text-sm flex items-center gap-1' href="#">
 
-            {index === 0 ? <span style={{ boxShadow: "0 0 0.25rem #00FF19", fontFamily: "'Satoshi Variable',sans-serif" }} className='inline-block w-2 h-2 bg-green-600 rounded-full '></span> : null}
+            {index === 0 ? <span key={index} style={{ boxShadow: "0 0 0.25rem #00FF19", fontFamily: "'Satoshi Variable',sans-serif" }} className='inline-block w-2 h-2 bg-green-600 rounded-full '></span> : null}
             {elem}</a>
         ))}
       </div>

@@ -1,7 +1,8 @@
+import { useMotionValueEvent, useScroll } from 'framer-motion';
 import React from 'react'
 import { useState } from 'react'
 const Work = () => {
-    const [images] = useState([
+    const [images, setImages] = useState([
         {
             url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/634ef09178195ce0073e38f3_Refokus%20Tools-1.png",
             top: "50%",
@@ -39,13 +40,39 @@ const Work = () => {
             isActive: false,
         },
     ]);
+    function activateImage(val){
+        if(val>0 ){
+            setImages((prev) => {prev[0].isActive=true; return [...prev]})
+        }
+        if(val>3 ){
+            setImages((prev) => {prev[1].isActive=true; return [...prev]})
+        }
+        if(val>5 ){
+            setImages((prev) => {prev[2].isActive=true; return [...prev]})
+        }
+        if(val>7 ){
+            setImages((prev) => {prev[3].isActive=true; return [...prev]})
+        }
+        if(val>9 ){
+            setImages((prev) => {prev[4].isActive=true; return [...prev]})
+        }
+        if(val>10 ){
+            setImages((prev) => {prev[5].isActive=true; return [...prev]})
+        }
+ 
+    }
+    const { scrollYProgress } = useScroll();
+    useMotionValueEvent(scrollYProgress,"change" ,(latest) => {
+        activateImage(Math.floor(latest*100));
+    })
+
     return (
         <div className='w-full'>
             <div className='relative max-w-4xl text-center mt-10 mx-auto '>
-                <h1 className='text-[30vw] relative right-10 leading-none font-medium z-1 select-none cursor-default tracking-tight'>work</h1>
+                <h1 className='text-[30vw] relative right-10 leading-none font-medium z-0 select-none cursor-default tracking-tight'>work</h1>
                 <div className='w-full h-full absolute top-0 left-0 '>
                     {images.map((elem, index) => (
-                        elem.isActive ? <img key={index} className='`-translate-y-[30%] z-0  -translate-10   absolute w-52 rounded-lg' style={{top: elem.top, left: elem.left}} src={elem.url} alt="" /> :null
+                        elem.isActive ? <img key={index} className='`-translate-y-[30%] z-1  -translate-10   absolute w-52 rounded-lg' style={{top: elem.top, left: elem.left}} src={elem.url} alt="" /> :null
 
                     ))}
                 </div>

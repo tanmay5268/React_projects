@@ -1,7 +1,14 @@
-import React from 'react'
-import Product from './Product.jsx'
-const Products = () => {
-    var products = [
+import React, { useState } from "react";
+import Product from "./Product";
+import { motion } from "framer-motion"; // Ensure motion is used in the component
+import arqitel from "../assets/arqitel.mp4";
+import ttr from "../assets/ttr.mp4";
+import yir from "../assets/yir.mp4";
+import yahoo from "../assets/yahoo.mp4";
+import rainfall from "../assets/rainfall.mp4";
+
+function Products() {
+  var products = [
     {
       title: "Arqitel",
       description:
@@ -38,13 +45,93 @@ const Products = () => {
       case: true,
     },
   ];
+
+  const [pos, setPos] = useState(0);
+  const mover = (val) => {
+    setPos(val * 23);
+  };
+
   return (
-    <div >
-        {products.map((item, index) => {
-            return <Product key={index} title={item.title} description={item.description} live={item.live} caseProp={item.case} />
-        })}
+    <div className="mt-32 relative">
+      {products.map((val, index) => (
+        <Product key={index} val={val} mover={mover} count={index} />
+      ))}
+      <div className="absolute top-0 w-full h-full pointer-events-none">
+        <motion.div
+          initial={{ y: pos, x: "-50%" }}
+          animate={{ y: pos + `rem` }}
+          transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.6 }}
+          className="window absolute w-[32rem] h-[23rem] left-[44%] rounded-3xl overflow-hidden"
+        >
+          <motion.div
+            animate={{ y: -pos + `rem` }}
+            transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <video
+              className="absolute object-cover rounded-3xl"
+              autoPlay
+              muted
+              loop
+              src={arqitel}
+            ></video>
+          </motion.div>
+          <motion.div
+            animate={{ y: -pos + `rem` }}
+            transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <video
+              className="absolute object-cover rounded-3xl"
+              autoPlay
+              muted
+              loop
+              src={ttr}
+            ></video>
+          </motion.div>
+          <motion.div
+            animate={{ y: -pos + `rem` }}
+            transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <video
+              className="absolute object-cover rounded-3xl"
+              autoPlay
+              muted
+              loop
+              src={yir}
+            ></video>
+          </motion.div>
+          <motion.div
+            animate={{ y: -pos + `rem` }}
+            transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <video
+              className="absolute object-cover rounded-3xl"
+              autoPlay
+              muted
+              loop
+              src={yahoo}
+            ></video>
+          </motion.div>
+          <motion.div
+            animate={{ y: -pos + `rem` }}
+            transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <video
+              className="absolute object-cover rounded-3xl"
+              autoPlay
+              muted
+              loop
+              src={rainfall}
+            ></video>
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Products
+export default Products;
