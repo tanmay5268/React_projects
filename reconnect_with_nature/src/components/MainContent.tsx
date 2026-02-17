@@ -41,10 +41,10 @@ const MainContent = () => {
                     The eastern bluebird is the only bluebird that lives in Illinois and the blue jay is the only jay we see in the area, but there are other similar-looking bluebirds and jays living elsewhere in the United States. Among bluebirds, the western bluebird looks quite similar to the eastern bluebird but can be found only along the Pacific Coast and the desert southwest. The mountain bluebird is also predominantly blue, but a brighter shade than the eastern and western bluebirds. It can be found across the Rocky Mountains, Pacific Coast and desert southwest.
                     <br className="mb-5" />
                     Four other jay species in the United States are all or predominantly blue, but none are as widespread as the familiar blue jay, which lives across the eastern two-thirds of the United States. The Steller's jay lives only in the western United States, while the Woodhouse's scrub-jay can be found in the southwestern United States. The California scrub-jay lives up and down the Pacific Coast, while the Florida scrub-jay is the only bird in the United States that lives exclusively in Florida, according to Cornell Lab.</p>
-                <div className="px-10 relative mt-3">
+                <div className="mt-4 ml-4">
                 <SimpleImageSlider
-                    width={700}
-                    height={450}
+                    width={600}
+                    height={400}
                     images={images}
                     showBullets={false}
                     showNavs={true}
