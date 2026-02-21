@@ -1,18 +1,18 @@
 @import 'tailwindcss';
-@layer base {
-    * {
-         box-sizing: border-box;
-    }
-
-    body {
-        margin:0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-    }
-}
 @font-face {
-    font-family: font1;
-    src: url('../public/fonts/Lausanne-500.woff2') format('woff2')
+    font-family:newFont ;
+    src: url('./assets/round8-four.ttf') format('truetype');
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    width:100vw;
+    height:100vh;
+    overflow: hidden;
+    background: #a0a0a0;
 }
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
