@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@font-face {
+    font-family: Archivo;
+    src: url('../public/Archivo-VariableFont_wdth\,wght.ttf') format('truetype');
+}
+@font-face{
+    font-family: Arena;
+    src: url("./assets/Arena-rvwaK.ttf") format("truetype")
+}
+@font-face {
+    font-family: Rockstar;
+    src: url('./assets/Rockstar-ExtraBold.otf') format('opentype');
+}
+
+
+
