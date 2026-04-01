@@ -1,11 +1,11 @@
-import { useLoading } from "../Context/LoadingContext";
+"use client";
+import { useLoading } from "@/context/LoadingContext";
 import { gsap, CSSPlugin } from "gsap";
 import { useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
+
 gsap.registerPlugin(CSSPlugin);
-// import useGsap from "@gsap/react";
-// import GridMotion from "@/components/GridMotion";
-const Home = () => {
+const Loader = () => {
     const { isLoaded, markAsLoaded } = useLoading();
     const hasLoaded = isLoaded();
     const [counter, setCounter] = useState(hasLoaded ? 100 : 0);
@@ -49,7 +49,7 @@ const Home = () => {
         if (counter === 100) {
             const tl = gsap.timeline();
             tl.to(".loading-container", { width: 0, duration: 1, ease: "power1.inOut" })
-            tl.to(".stairs > div", { y: '-100%', duration: 0.5, stagger: 0.08, ease: "power2.inOut" })
+            tl.to(".stairs > div", { y: '-100%', duration: 0.5, stagger: 0.05, ease: "power3.inOut" })
             tl.to(".loading-container", { display: "none" })
             tl.to(".stairs > div", { display: "none" })
 
@@ -61,7 +61,7 @@ const Home = () => {
         }
     }, [counter])
     return (
-        <div className="relative">
+        <div className="absolute top-0 left-0 z-100">
             {/* loading */}
             {showLoading && <div className="loading-container pointer-events-none flex flex-row-reverse overflow-hidden z-10 absolute w-screen h-screen bg-[#120321]">
                 <div className=" absolute left-0 ml-10 mt-5 font-[Rockstar] text-white">
@@ -79,14 +79,12 @@ const Home = () => {
 
             {/* stairs for */}
             {showLoading && <div className="stairs max-sm:hidden absolute z-9 flex pointer-events-none w-screen h-screen">
-                <div className="h-full flex-1 bg-[#82BEE7]"></div>
-                <div className="h-full flex-1 bg-[#82B6E8]"></div>
-                <div className="h-full flex-1 bg-[#83A6EA]"></div>
-                <div className="h-full flex-1 bg-[#8393ED]"></div>
-                <div className="h-full flex-1 bg-[#8466F3]"></div>
-                <div className="h-full flex-1 bg-[#8450F2]"></div>
-                <div className="h-full flex-1 bg-[#8439F1]"></div>
-                <div className="h-full flex-1 bg-[#8420F0]"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
+                <div className="h-full flex-1 bg-indigo-400"></div>
                 {/* add gradient later */}
             </div>}
             {/* transition for mobile */}
@@ -94,14 +92,8 @@ const Home = () => {
                 <div className="w-full h-full bg-[#83A6EA]"></div>
             </div>}
             {/* main content */}
-            <div className=" w-screen bg-[#120321] h-screen flex items-center justify-center">
-                <div className="main-content flex flex-col items-center justify-center">
-                    <div className="text-6xl font-[Rockstar] text-white">Welcome to ACTS</div>
-
-                </div>
-            </div>
         </div>
     )
 }
 
-export default Home
+export default Loader
