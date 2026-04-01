@@ -25,35 +25,19 @@ const Loader = () => {
                     return 100;
                 }
             });
-        }, 20);
+        }, 10);
 
         return () => clearInterval(count);
     });
-    useEffect(() => {
-        // Skip text animation if already loaded
-        if (isLoaded()) return;
-
-        const tl = gsap.timeline();
-        tl.to('.acts > div', {
-            color: "#8466F3",
-            duration: 1,
-            stagger: 0.3,
-            delay: 0.3,
-            ease: "power2.inOut",
-        })
-    } )
     useGSAP(() => {
-        // Skip loading animation if already loaded
         if (isLoaded()) return;
 
         if (counter === 100) {
             const tl = gsap.timeline();
-            tl.to(".loading-container", { width: 0, duration: 1, ease: "power1.inOut" })
-            tl.to(".stairs > div", { y: '-100%', duration: 0.5, stagger: 0.05, ease: "power3.inOut" })
+            tl.to(".loading-container", { opacity: 0, duration: 1, ease: "power1.inOut" })
+            tl.to(".stairs > div", { y: '-100%', duration: 0.8, stagger: 0.05, ease: "power3.inOut" })
             tl.to(".loading-container", { display: "none" })
             tl.to(".stairs > div", { display: "none" })
-
-            tl.to(".main-content", { opacity: 1, duration: 1, delay: -2, ease: "power2.inOut" })
             tl.call(() => {
                 markAsLoaded();
                 setShowLoading(false);
@@ -63,22 +47,15 @@ const Loader = () => {
     return (
         <div className="absolute top-0 left-0 z-100">
             {/* loading */}
-            {showLoading && <div className="loading-container pointer-events-none flex flex-row-reverse overflow-hidden z-10 absolute w-screen h-screen bg-[#120321]">
-                <div className=" absolute left-0 ml-10 mt-5 font-[Rockstar] text-white">
-                    <div className="max-sm:text-[40vw]  md:text-[10vw] acts leading-none flex ">
-                        <div className="">A</div>
-                        <div className="">C</div>
-                        <div className="">T</div>
-                        <div className="">S</div>
-                    </div>
-                </div>
-                <div className="loading-text text-[#8466F3] text-9xl mr-10  font-[Rockstar] flex items-end justify-end">
-                    <div className="mr-10">{counter}%</div>
+            {showLoading && <div className="loading-container pointer-events-none flex items-center justify-center overflow-hidden z-10 absolute w-screen h-screen bg-[#12032100]">
+                <div className="loading-text text-[#2b263e] text-9xl mr-80  font-[Rockstar]
+                flex items-center justify-between">
+                    <div className="mr-50">{counter}%</div>
                 </div>
             </div>}
 
             {/* stairs for */}
-            {showLoading && <div className="stairs max-sm:hidden absolute z-9 flex pointer-events-none w-screen h-screen">
+            {showLoading && <div className="stairs absolute z-9 flex pointer-events-none w-screen h-screen">
                 <div className="h-full flex-1 bg-indigo-400"></div>
                 <div className="h-full flex-1 bg-indigo-400"></div>
                 <div className="h-full flex-1 bg-indigo-400"></div>
@@ -88,9 +65,9 @@ const Loader = () => {
                 {/* add gradient later */}
             </div>}
             {/* transition for mobile */}
-            {showLoading && <div className="md:hidden absolute z-9 w-screen h-screen">
+            {/* {showLoading && <div className="sm:hidden absolute z-9 w-screen h-screen">
                 <div className="w-full h-full bg-[#83A6EA]"></div>
-            </div>}
+            </div>} */}
             {/* main content */}
         </div>
     )

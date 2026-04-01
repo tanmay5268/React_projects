@@ -32,7 +32,7 @@ export default function TransitionProvider({
     const cols = colRefs.current;
     gsap.to(cols, {
       y: "-100%",
-      duration: 0.5,
+      duration: 0.8,
       ease: "power3.inOut",
       stagger: 0.05,
       onComplete: () => {
