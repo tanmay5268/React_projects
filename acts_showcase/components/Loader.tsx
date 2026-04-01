@@ -48,9 +48,8 @@ const Loader = () => {
         <div className="absolute top-0 left-0 z-100">
             {/* loading */}
             {showLoading && <div className="loading-container pointer-events-none flex items-center justify-center overflow-hidden z-10 absolute w-screen h-screen bg-[#12032100]">
-                <div className="loading-text text-[#2b263e] text-9xl mr-80  font-[Rockstar]
-                flex items-center justify-between">
-                    <div className="mr-50">{counter}%</div>
+                <div className="loading-text tracking-tight text-[#2b263e] w-full text-9xl mr-80  font-[oswald] flex justify-center items-center">
+                    <div className=" w-70 text-right">{counter}%</div>
                 </div>
             </div>}
 

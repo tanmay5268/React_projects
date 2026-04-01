@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomePageContent = () => {
   return (
-    <div className='bg-amber-200'>HomePageContent</div>
+    <div className='text-white'>HomePageContent</div>
   )
 }
 

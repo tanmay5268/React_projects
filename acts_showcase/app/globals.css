@@ -4,4 +4,28 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
+@font-face {
+    font-family: BoldFace;
+    src: url('../public/Boldonse-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: oswald;
+    src: url('../public/Oswald/Oswald-VariableFont_wght.ttf') format('truetype');
+}
+
+/* a,p{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+}
+h1{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+} */

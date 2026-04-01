@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LoadingProvider } from "@/context/LoadingContext";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import Menu from "@/components/Menu";
 import TransitionProvider from "@/context/TransitionContext";
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -16,10 +17,11 @@ export default function RootLayout({
     return (
         <html
             lang="en">
-            <body className="">
+            <body className="bg-[#130a38]">
                 <LoadingProvider>
                     <TransitionProvider>
-                        <Nav/>
+                        <Nav />
+                        {/* <Menu></Menu> */}
                         <div>
                             {children}
                         </div>
