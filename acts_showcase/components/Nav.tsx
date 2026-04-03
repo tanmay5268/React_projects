@@ -1,17 +1,20 @@
-"use client"
-import Link from "next/link"
-import {usePageTransition} from "@/context/TransitionContext";
-const Nav = () => {
-const {navigateTo} = usePageTransition();
+"use client";
 
-  return (
-    <nav className="absolute z-99 w-full h-16 flex items-center justify-center bg-transparent gap-10 pr-10 text-7xl font-[oswald] text-[#2b263e]">
-      <Link className="text-2xl" onClick={(e)=>{e.preventDefault(); navigateTo("/")}} href="/">Home</Link>
-      <Link className="text-2xl" onClick={(e)=>{e.preventDefault(); navigateTo("/about")}} href="/about">About</Link>
-      <Link className="text-2xl" onClick={(e)=>{e.preventDefault(); navigateTo("/projects")}} href="/projects">Projects</Link>
-      <Link className="text-2xl" onClick={(e)=>{e.preventDefault(); navigateTo("/teams")}} href="/teams">Teams</Link>
-    </nav>
-  )
+import Menu from "./Menu";
+
+const Nav = () => {
+    return (
+        <div className='relative mt-5 text-white min-w-11/12 flex items-center justify-between  h-16'>
+            <div className="left w-1/3 h-full flex items-center justify-start gap-4 ml-10">
+                <Menu></Menu>
+            </div>
+            <div className="right  w-1/3 h-full flex items-center justify-end gap-4 mr-10">
+                <div className="w-1/3 text-center">Contact</div>
+                <div className="w-1/3 text-center">Contact</div>
+                <div className="w-1/3 text-center">Contact</div>
+            </div>
+        </div>
+    )
 }
 
 export default Nav

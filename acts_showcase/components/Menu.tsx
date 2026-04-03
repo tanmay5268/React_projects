@@ -1,91 +1,234 @@
 "use client";
-import React, { useEffect, useRef } from 'react'
-import './menu.css'
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import Link from 'next/link';
+import React from 'react'
+import { RxHamburgerMenu } from "react-icons/rx";
+import { RxCross1 } from "react-icons/rx";
 import { usePageTransition } from '@/context/TransitionContext';
-const menuLinks = [{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "Projects", href: "/projects" }, { label: "Teams", href: "/teams" }]
+
+
+import gsap from 'gsap';
+
+const MENU_ITEMS = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Teams", href: "/teams" },
+];
+
 const Menu = () => {
     const { navigateTo } = usePageTransition();
-    const container = React.useRef<HTMLDivElement>(null);
-    //
-    const tl = useRef<gsap.core.Timeline | null>(null);
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
+    const isClosingRef = React.useRef(false);
+
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const overlayRef = React.useRef<HTMLDivElement | null>(null);
+    const circleRef = React.useRef<HTMLDivElement | null>(null);
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
+    const timelineRef = React.useRef<gsap.core.Timeline | null>(null);
+
+    const getButtonCenter = React.useCallback(() => {
+        if (!buttonRef.current) {
+            return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
+        }
+
+        const rect = buttonRef.current.getBoundingClientRect();
+        return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        };
+    }, []);
+
+    const getTargetScale = React.useCallback((x: number, y: number) => {
+        const diameter = circleRef.current?.offsetWidth ?? 60;
+
+        const distances = [
+            Math.hypot(x, y),
+            Math.hypot(window.innerWidth - x, y),
+            Math.hypot(x, window.innerHeight - y),
+            Math.hypot(window.innerWidth - x, window.innerHeight - y),
+        ];
+
+        const furthestCorner = Math.max(...distances);
+        return (furthestCorner * 2) / diameter + 0.2;
+    }, []);
+
+    const closeMenu = React.useCallback((onComplete?: () => void) => {
+        if (!overlayRef.current || !circleRef.current || !contentRef.current) return;
+        if (isClosingRef.current) return;
+
+        isClosingRef.current = true;
+
+        const menuItems = contentRef.current.querySelectorAll(".menu-item");
+
+        timelineRef.current?.kill();
+        timelineRef.current = gsap.timeline({
+            defaults: { ease: "power3.inOut" },
+            onComplete: () => {
+                if (!overlayRef.current || !circleRef.current) return;
+                gsap.set(overlayRef.current, { autoAlpha: 0, pointerEvents: "none" });
+                gsap.set(circleRef.current, { autoAlpha: 0, scale: 1 });
+                setIsMenuOpen(false);
+                isClosingRef.current = false;
+                onComplete?.();
+            },
+        });
+
+        timelineRef.current
+            .to(menuItems, {
+                y: 16,
+                autoAlpha: 0,
+                stagger: -0.05,
+                duration: 0.22,
+                ease: "power2.in",
+            })
+            .to(contentRef.current, { autoAlpha: 0, duration: 0.18 }, "<")
+            .to(circleRef.current, { scale: 1, duration: 0.55, ease: "power4.inOut" }, "<");
+    }, []);
+
+    const openMenu = React.useCallback(() => {
+        if (!overlayRef.current || !circleRef.current || !contentRef.current) return;
+
+        const { x, y } = getButtonCenter();
+        const targetScale = getTargetScale(x, y);
+        const menuItems = contentRef.current.querySelectorAll(".menu-item");
+
+        setIsMenuOpen(true);
+        timelineRef.current?.kill();
+
+        gsap.set(overlayRef.current, { autoAlpha: 1, pointerEvents: "auto" });
+        gsap.set(circleRef.current, {
+            x,
+            y,
+            xPercent: -50,
+            yPercent: -50,
+            autoAlpha: 1,
+            scale: 1,
+        });
+        gsap.set(contentRef.current, { autoAlpha: 0 });
+        gsap.set(menuItems, { autoAlpha: 0, y: 24 });
+
+        timelineRef.current = gsap.timeline({ defaults: { ease: "power3.inOut" } });
+        timelineRef.current
+            .to(circleRef.current, { scale: targetScale, duration: 0.85, ease: "power4.inOut" })
+            .to(contentRef.current, { autoAlpha: 1, duration: 0.2 }, "-=0.2")
+            .to(menuItems, {
+                y: 0,
+                autoAlpha: 1,
+                stagger: 0.08,
+                duration: 0.35,
+                ease: "power3.out",
+            }, "-=0.05");
+    }, [getButtonCenter, getTargetScale]);
+
+    React.useEffect(() => {
+        if (!overlayRef.current || !circleRef.current || !contentRef.current) return;
+
+        gsap.set(overlayRef.current, { autoAlpha: 0, pointerEvents: "none" });
+        gsap.set(circleRef.current, { autoAlpha: 0, scale: 1 });
+        gsap.set(contentRef.current, { autoAlpha: 0 });
+    }, []);
+
+    React.useEffect(() => {
+        document.body.style.overflow = isMenuOpen ? "hidden" : "";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isMenuOpen]);
+
+    React.useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && isMenuOpen) {
+                closeMenu();
+            }
+        };
+
+        window.addEventListener("keydown", handleEscape);
+        return () => {
+            window.removeEventListener("keydown", handleEscape);
+        };
+    }, [closeMenu, isMenuOpen]);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (!isMenuOpen || !circleRef.current) return;
+            const { x, y } = getButtonCenter();
+            const scale = getTargetScale(x, y);
+            gsap.to(circleRef.current, { x, y, scale, duration: 0.2, overwrite: true });
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [getButtonCenter, getTargetScale, isMenuOpen]);
+
+    React.useEffect(() => {
+        return () => {
+            timelineRef.current?.kill();
+        };
+    }, []);
+
     const toggleMenu = () => {
-        setIsMenuOpen((prev) => !prev);
-    }
-    useGSAP(() => {
-        gsap.set('.menu-link-item-holder', { y: 75 });
-        tl.current = gsap.timeline({ paused: true })
-        .to(".menu-overlay",{
-            duration: 1.5,
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            ease: "power4.inOut"
-        })
-        .to(".menu-link-item-holder", {
-            y:0,
-            duration: 1,
-            stagger: 0.1,
-            ease: "power4.inOut",
-            delay: -0.75,
-        })
+        if (isMenuOpen) {
+            closeMenu();
+            return;
+        }
 
-    }, { scope: container })
+        openMenu();
+    };
 
-useEffect(()=>{
-    if(isMenuOpen){
-        tl.current?.play();
-    }
-    else{
-        tl.current?.reverse();
-    }
-},[isMenuOpen])
     return (
-        <div className='menu-container' ref={container}>
-            <div className="menu-bar">
-                <div className="menu-logo">
-                    <Link href="/">Home</Link>
-                </div>
-                <div className="menu-open" onClick={toggleMenu}>
-                    <p>Menu</p>
+        <>
+            <div className='absolute top-0 left-0 w-full h-full flex items-center justify-start gap-4 ml-10 z-50'>
+                <div className='relative bg-[#8466F3] transition duration-300 w-15 h-15 rounded-full flex items-center justify-center'>
+                    <button
+                        ref={buttonRef}
+                        className='relative z-10 text-white'
+                        onClick={toggleMenu}
+                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isMenuOpen}
+                        aria-controls='site-menu-overlay'
+                    >
+                        {isMenuOpen ? <RxCross1 className='w-7 h-7' /> : <RxHamburgerMenu className='w-7 h-7' />}
+                    </button>
                 </div>
             </div>
-            <div className="menu-overlay">
-                <div className="menu-overlay-bar">
-                    <div className="menu-logo">
-                        <Link href="/">Home</Link>
-                    </div>
-                    <div className="menu-close" onClick={toggleMenu}>
-                        <p>Close</p>
-                    </div>
-                </div>
-                <div className="menu-close-icon" onClick={toggleMenu}>
-                    <p>&#x2715;</p>
-                </div>
-                <div className="menu-copy">
-                    <div className="menu-links">
-                        {menuLinks.map((links, index) => (
-                            <div className='menu-link-item' key={index}>
-                                <div className="menu-link-item-holder" onClick={toggleMenu}>
-                                    <Link href={links.href}>{links.label}</Link>
-                                </div>
-                            </div>
+            
+            <div
+                id='site-menu-overlay'
+                ref={overlayRef}
+                className='fixed inset-0 z-40'
+                aria-hidden={!isMenuOpen}
+            >
+                <div
+                    ref={circleRef}
+                    className='absolute h-15 w-15 rounded-full bg-[#8466F3]'
+                />
+
+                <div
+                    ref={contentRef}
+                    className='absolute inset-0 flex items-center justify-evenly'
+                >
+                    <nav className='flex flex-col items-center gap-6' aria-label='Main menu'>
+                        {MENU_ITEMS.map((item) => (
+                            <button
+                                key={item.href}
+                                type='button'
+                                className='menu-item font-[BoldFace] uppercase  text-white text-5xl md:text-7xl font-semibold tracking-tight leading-none'
+                                onClick={() => {
+                                    closeMenu(() => {
+                                        navigateTo(item.href);
+                                    });
+                                }}
+
+                            >
+                                {item.label}
+                            </button>
                         ))}
-                    </div>
-                    <div className="menu-info">
-                        <div className="menu-info-col">
-                            <a href="#">X &#8599;</a>
-                            <a href="#">Instagram &#8599;</a>
-                            <a href="#">LinkedIn &#8599;</a>
-                            <a href="#">Behance &#8599;</a>
-                            <a href="#">Dribbble &#8599;</a>
-                        </div>
-                    </div>
+                    </nav>
                 </div>
-                <div className="menu-preview"></div>
             </div>
-        </div>
+        </>
+
     )
 }
 

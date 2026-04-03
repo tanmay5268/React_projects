@@ -32,9 +32,9 @@ export default function TransitionProvider({
     const cols = colRefs.current;
     gsap.to(cols, {
       y: "-100%",
-      duration: 0.8,
+      duration: 1,
       ease: "power3.inOut",
-      stagger: 0.05,
+      stagger: 0.07,
       onComplete: () => {
         isTransitioning.current = false;
       },
@@ -52,9 +52,9 @@ export default function TransitionProvider({
 
       gsap.to(cols, {
         y: "0%",
-        duration: 0.5,
+        duration: 1,
         ease: "power3.inOut",
-        stagger: 0.05,
+        stagger: 0.07,
         onComplete: () => {
           router.push(href);
         },
