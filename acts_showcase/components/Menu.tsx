@@ -8,9 +8,9 @@ import gsap from 'gsap';
 
 const MENU_ITEMS = [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
     { label: "Teams", href: "/teams" },
+    { label: "Events", href: "/events" },
+    { label: "FAQ", href: "/faq" },
 ];
 
 const Menu = () => {
@@ -83,7 +83,7 @@ const Menu = () => {
             .to(menuItems, { autoAlpha: 0, duration: 0.16 }, "<")
             .to(contentRef.current, { autoAlpha: 0, duration: 0.18 }, "<")
             // close timing control
-            .to(circleRef.current, { scale: 1, duration: 0.9, ease: "circ.out" }, "<");
+            .to(circleRef.current, { scale: 1, duration: 0.8, ease: "circ.out" }, "<");
     }, []);
 
     const openMenu = React.useCallback(() => {
@@ -118,7 +118,7 @@ const Menu = () => {
         timelineRef.current = gsap.timeline({ defaults: { ease: "power3.inOut" } });
         timelineRef.current
             // open timing control
-            .to(circleRef.current, { scale: targetScale, duration: 0.8, ease: "circ.in" })
+            .to(circleRef.current, { scale: targetScale, duration: 1, ease: "power3.inOut" })
             .to(contentRef.current, { autoAlpha: 1, duration: 0.2 }, "-=0.2")
             .to(menuItemTexts, {
                 yPercent: 0,

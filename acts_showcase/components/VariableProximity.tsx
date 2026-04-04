@@ -169,7 +169,7 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
       {...restProps}
     >
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap">
+        <span key={wordIndex} className="inline-block text-lg font-extrabold font-[oswald] whitespace-nowrap">
           {word.split('').map(letter => {
             const currentLetterIndex = letterIndex++;
             return (
@@ -191,7 +191,7 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
           {wordIndex < words.length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
-      <span className="sr-only">{label}</span>
+      <span className="sr-only text-3xl font-[oswald]">{label}</span>
     </span>
   );
 });

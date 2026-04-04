@@ -73,7 +73,7 @@ export default function TransitionProvider({
             ref={(el) => {
               colRefs.current[idx] = el;
             }}
-            className="w-full h-full bg-indigo-400"
+            className="w-full h-full bg-indigo-400 pointer-events-none"
             style={{ transform: "translateY(100%)" }}
           />
         ))}

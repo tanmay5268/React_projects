@@ -1,10 +1,11 @@
-import HomePageContent from "@/components/HomePageContent";
+import HomePage from "@/pages/HomePage";
 import Loader from "@/components/Loader";
 export default function Home() {
   return (
     <div>
          <Loader/>
-          <HomePageContent></HomePageContent>
+          <HomePage></HomePage>
+
     </div>
 
   );

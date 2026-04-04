@@ -1,6 +1,6 @@
 const page = () => {
   return (
-    <div>teams</div>
+    <div className='bg-[#101011] w-screen h-screen text-white'>TEAMS</div>
   )
 }
 
