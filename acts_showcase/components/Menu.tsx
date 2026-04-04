@@ -4,7 +4,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import { usePageTransition } from '@/context/TransitionContext';
 
-
 import gsap from 'gsap';
 
 const MENU_ITEMS = [
@@ -58,6 +57,7 @@ const Menu = () => {
         isClosingRef.current = true;
 
         const menuItems = contentRef.current.querySelectorAll(".menu-item");
+        const menuItemTexts = contentRef.current.querySelectorAll(".menu-item-text");
 
         timelineRef.current?.kill();
         timelineRef.current = gsap.timeline({
@@ -73,15 +73,17 @@ const Menu = () => {
         });
 
         timelineRef.current
-            .to(menuItems, {
-                y: 16,
+            .to(menuItemTexts, {
+                yPercent: 120,
                 autoAlpha: 0,
                 stagger: -0.05,
-                duration: 0.22,
-                ease: "power2.in",
+                duration: 0.24,
+                ease: "power3.in",
             })
+            .to(menuItems, { autoAlpha: 0, duration: 0.16 }, "<")
             .to(contentRef.current, { autoAlpha: 0, duration: 0.18 }, "<")
-            .to(circleRef.current, { scale: 1, duration: 0.55, ease: "power4.inOut" }, "<");
+            // close timing control
+            .to(circleRef.current, { scale: 1, duration: 0.9, ease: "circ.out" }, "<");
     }, []);
 
     const openMenu = React.useCallback(() => {
@@ -90,6 +92,7 @@ const Menu = () => {
         const { x, y } = getButtonCenter();
         const targetScale = getTargetScale(x, y);
         const menuItems = contentRef.current.querySelectorAll(".menu-item");
+        const menuItemTexts = contentRef.current.querySelectorAll(".menu-item-text");
 
         setIsMenuOpen(true);
         timelineRef.current?.kill();
@@ -104,18 +107,26 @@ const Menu = () => {
             scale: 1,
         });
         gsap.set(contentRef.current, { autoAlpha: 0 });
-        gsap.set(menuItems, { autoAlpha: 0, y: 24 });
+        gsap.set(menuItems, { autoAlpha: 1 });
+        gsap.set(menuItemTexts, {
+            yPercent: 120,
+            autoAlpha: 0,
+            rotateX: 16,
+            transformOrigin: "50% 100%",
+        });
 
         timelineRef.current = gsap.timeline({ defaults: { ease: "power3.inOut" } });
         timelineRef.current
-            .to(circleRef.current, { scale: targetScale, duration: 0.85, ease: "power4.inOut" })
+            // open timing control
+            .to(circleRef.current, { scale: targetScale, duration: 0.8, ease: "circ.in" })
             .to(contentRef.current, { autoAlpha: 1, duration: 0.2 }, "-=0.2")
-            .to(menuItems, {
-                y: 0,
+            .to(menuItemTexts, {
+                yPercent: 0,
+                rotateX: 0,
                 autoAlpha: 1,
                 stagger: 0.08,
-                duration: 0.35,
-                ease: "power3.out",
+                duration: 0.7,
+                ease: "back.out(1.45)",
             }, "-=0.05");
     }, [getButtonCenter, getTargetScale]);
 
@@ -178,8 +189,8 @@ const Menu = () => {
 
     return (
         <>
-            <div className='absolute top-0 left-0 w-full h-full flex items-center justify-start gap-4 ml-10 z-50'>
-                <div className='relative bg-[#8466F3] transition duration-300 w-15 h-15 rounded-full flex items-center justify-center'>
+            <div className='absolute rounded-full top-0 left-0 w-15 h-full flex items-center justify-start gap-4 ml-10 z-50 pointer-events-none'>
+                <div className='relative bg-[#8466F3] transition duration-300 w-15 h-15 rounded-full flex items-center justify-center pointer-events-auto'>
                     <button
                         ref={buttonRef}
                         className='relative z-10 text-white'
@@ -192,7 +203,7 @@ const Menu = () => {
                     </button>
                 </div>
             </div>
-            
+
             <div
                 id='site-menu-overlay'
                 ref={overlayRef}
@@ -206,26 +217,31 @@ const Menu = () => {
 
                 <div
                     ref={contentRef}
-                    className='absolute inset-0 flex items-center justify-evenly'
+                    className='absolute inset-0 flex items-center md:w-2/3  justify-center'
                 >
-                    <nav className='flex flex-col items-center gap-6' aria-label='Main menu'>
+                    <nav className='flex flex-col h-100 md:h-150 justify-around items-center gap-6' aria-label='Main menu'>
                         {MENU_ITEMS.map((item) => (
                             <button
                                 key={item.href}
                                 type='button'
-                                className='menu-item font-[BoldFace] uppercase  text-white text-5xl md:text-7xl font-semibold tracking-tight leading-none'
+                                className='group max-sm:h-40  md:h-100 overflow-hidden menu-item font-[BoldFace] uppercase text-white text-6xl md:text-7xl font-semibold tracking-tight leading-none flext items-center justify-center pointer-events-auto'
                                 onClick={() => {
                                     closeMenu(() => {
                                         navigateTo(item.href);
                                     });
                                 }}
-
                             >
-                                {item.label}
+                                <span className=' items-center h-full flex md:h-30   overflow-hidden'>
+                                    <span className='menu-item-text h-2/3 block  transition-colors duration-500 group-hover:text-black'>
+                                        {item.label}
+                                    </span>
+                                </span>
+
                             </button>
                         ))}
                     </nav>
                 </div>
+
             </div>
         </>
 

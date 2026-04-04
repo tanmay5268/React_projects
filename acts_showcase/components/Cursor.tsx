@@ -7,13 +7,14 @@ const Cursor = () => {
         y: useMotionValue(0)
     }
     const smoothMouseMove={
-        x: useSpring(mouseMove.x,{stiffness:300,damping:20, mass:0.5}),
-        y: useSpring(mouseMove.y,{stiffness:300,damping:20, mass:0.5})
+        x: useSpring(mouseMove.x,{stiffness:500,damping:40, mass:0.5}),
+        y: useSpring(mouseMove.y,{stiffness:500,damping:40, mass:0.5})
     }
     useEffect(()=>{
         const mouseMoveHandler=(e:MouseEvent)=>{
             mouseMove.x.set(e.clientX);
             mouseMove.y.set(e.clientY);
+            document.querySelector('.elem-cursor')?.classList.remove('hidden');
         }
         window.addEventListener('mousemove',mouseMoveHandler);
         return ()=>{
@@ -22,7 +23,7 @@ const Cursor = () => {
     })
   return (
     <motion.div
-      className='pointer-events-none bg-sky-950  translate -translate-x-1/2 -translate-y-1/2 fixed z-50 h-6 w-6 rounded-full'
+      className='pointer-events-none hidden bg-white max-sm:hidden  translate -translate-x-1/2 -translate-y-1/2 fixed mix-blend-exclusion z-50 h-5 w-5 rounded-full elem-cursor'
       style={{
         left: smoothMouseMove.x,
         top: smoothMouseMove.y,}}

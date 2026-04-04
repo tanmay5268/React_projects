@@ -66,7 +66,7 @@ export default function TransitionProvider({
   return (
     <TransitionContext.Provider value={{ navigateTo }}>
       {children}
-      <div className="w-screen h-screen fixed inset-0 z-50 flex pointer-events-none">
+      <div className="w-screen h-screen fixed inset-0 z-50 flex cursor-none pointer-events-none">
         {Array.from({ length: column }).map((_, idx) => (
           <div
             key={idx}
