@@ -1,4 +1,12 @@
-import { forwardRef, useMemo, useRef, useEffect, MutableRefObject, CSSProperties, HTMLAttributes } from 'react';
+import {
+  forwardRef,
+  useMemo,
+  useRef,
+  useEffect,
+  MutableRefObject,
+  CSSProperties,
+  HTMLAttributes
+} from 'react';
 import { motion } from 'motion/react';
 
 function useAnimationFrame(callback: () => void) {
@@ -65,6 +73,8 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
     falloff = 'linear',
     className = '',
     onClick,
+    onMouseEnter,
+    onMouseLeave,
     style,
     ...restProps
   } = props;
@@ -160,16 +170,23 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
     <span
       ref={ref}
       onClick={onClick}
+      onMouseEnter={ev => {
+        onMouseEnter?.(ev);
+      }}
+      onMouseLeave={ev => {
+        onMouseLeave?.(ev);
+      }}
       style={{
         display: 'inline',
-        fontFamily: '"Roboto Flex", sans-serif',
-        ...style
+        fontFamily: 'oswald, sans-serif',
+        ...style,
+        transition: style?.transition ?? 'color 150ms ease',
       }}
       className={className}
       {...restProps}
     >
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block text-lg font-extrabold font-[oswald] whitespace-nowrap">
+        <span key={wordIndex} className="inline-block whitespace-nowrap">
           {word.split('').map(letter => {
             const currentLetterIndex = letterIndex++;
             return (
@@ -180,7 +197,8 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
                 }}
                 style={{
                   display: 'inline-block',
-                  fontVariationSettings: interpolatedSettingsRef.current[currentLetterIndex]
+                  fontVariationSettings:
+                    interpolatedSettingsRef.current[currentLetterIndex] ?? fromFontVariationSettings
                 }}
                 aria-hidden="true"
               >
@@ -191,7 +209,7 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
           {wordIndex < words.length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
-      <span className="sr-only text-3xl font-[oswald]">{label}</span>
+      <span className="sr-only">{label}</span>
     </span>
   );
 });

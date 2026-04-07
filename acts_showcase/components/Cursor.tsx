@@ -1,7 +1,7 @@
 "use client";
 import { motion, useMotionValue,useSpring } from 'framer-motion'
 import { useEffect } from 'react';
-const Cursor = () => {
+export const Cursor = () => {
     const mouseMove={
         x: useMotionValue(0),
         y: useMotionValue(0)
@@ -11,11 +11,13 @@ const Cursor = () => {
         y: useSpring(mouseMove.y,{stiffness:500,damping:40, mass:0.5})
     }
     useEffect(()=>{
-        const mouseMoveHandler=(e:MouseEvent)=>{
-            mouseMove.x.set(e.clientX);
-            mouseMove.y.set(e.clientY);
-            document.querySelector('.elem-cursor')?.classList.remove('hidden');
+      const mouseMoveHandler=(e:MouseEvent)=>{
+        mouseMove.x.set(e.clientX);
+        mouseMove.y.set(e.clientY);
+        if (!document.body.classList.contains('video-cursor-active')) {
+          document.querySelector('.elem-cursor')?.classList.remove('hidden');
         }
+      }
         window.addEventListener('mousemove',mouseMoveHandler);
         return ()=>{
             window.removeEventListener('mousemove',mouseMoveHandler);
@@ -32,4 +34,3 @@ const Cursor = () => {
   )
 }
 
-export default Cursor

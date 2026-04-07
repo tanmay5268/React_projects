@@ -3,11 +3,11 @@ import { LoadingProvider } from "@/context/LoadingContext";
 import "./globals.css";
 import TransitionProvider from "@/context/TransitionContext";
 import Nav from "@/components/Nav";
-import Cursor from "@/components/Cursor";
-import { Geist } from "next/font/google";
+import {Cursor} from "@/components/Cursor";
+import {Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
     return (
         <html
-            lang="en" className={cn("cursor-none", "font-sans", geist.variable)}>
+            lang="en" className={cn("cursor-none", "font-sans", inter.variable)}>
             <body>
                 <LoadingProvider>
                     <TransitionProvider>

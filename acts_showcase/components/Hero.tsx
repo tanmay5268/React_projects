@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import gsap from "gsap";
+import VariableProximity from "./VariableProximity";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ShinyText from "./ShinyText";
 import { useLoading } from "@/context/LoadingContext";
@@ -9,7 +11,9 @@ const HERO_LINES = ["we build", "real-world", "tech experience", "that matters"]
 const Hero = () => {
     const heroRef = React.useRef<HTMLDivElement | null>(null);
     const { isLoaded } = useLoading();
+    const aboutRef = React.useRef<HTMLDivElement | null>(null);
     const hasLoaded = isLoaded();
+    gsap.registerPlugin(ScrollTrigger);
     useGSAP(() => {
         if (!heroRef.current) return;
         if (typeof window === "undefined") return;
@@ -45,7 +49,7 @@ const Hero = () => {
             }, "-=0.25");
         }
         else {
-             tl.from(lines, {
+            tl.from(lines, {
                 y: 24,
                 autoAlpha: 0,
                 duration: 0.45,
@@ -69,7 +73,19 @@ const Hero = () => {
         }
 
     }, { scope: heroRef });
-
+    useGSAP(() => {
+        if (!aboutRef.current) return;
+        const elem = aboutRef.current;
+        gsap.set(elem, { autoAlpha: 0, y: 24 });
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: elem,
+                start: "top 80%",
+                once: true,
+                scrub: 1,
+            },
+        }).to(elem, { autoAlpha: 1, y: 0, duration: 0.75, ease: "power3.out" });
+    }, { scope: aboutRef });
     function renderChars(line: string) {
         if (line === "real-world") {
             return <ShinyText speed={2.5} spread={90} shineColor="#8466F3" color="white" direction="right" yoyo text={line} className="hero-char inline-block" />
@@ -89,14 +105,25 @@ const Hero = () => {
     }
 
     return (
-        <div className='relative text-white w-screen bg-[#101011] h-screen'>
+        <div className='relative text-white h-180 max-sm:h-3/5  md:w-screen md:h-screen'>
+            <div ref={aboutRef} className=" text-white relative w-110 text-left font-extralight  text-2xl left-2 top-190 sm:left-10 md:left-16 max-sm:hidden">
+                <VariableProximity
+                className=" text-extralight text-2xl left-2 top-190 sm:left-10 md:left-16 max-sm:hidden"
+                    label="ACTS is a technical club at Guru Gobind Singh Indraprastha University (East Delhi Campus) that promotes a collaborative environment for learning and innovation. It also hosts career development sessions on resume building and interview preparation, helping students grow both technically and professionally."
+                    containerRef={aboutRef}
+                    radius={30}
+                    fromFontVariationSettings="'wght' 300"
+                    toFontVariationSettings="'wght' 700"
+                ></VariableProximity>
+
+            </div>
             <div
                 ref={heroRef}
-                className='absolute left-6 top-[26%] max-sm:left-4 max-sm:text-5xl  sm:left-10 md:left-[14%] lg:left-[22%] overflow-hidden flex flex-col text-left uppercase font-[oswald] leading-none text-[14vw] sm:text-[11vw] md:text-[7.5vw]'
+                className='absolute left-6 top-[26%] max-sm:left-4 max-sm:text-[14.7vw]  sm:left-10 md:left-[24%] lg:left-[32%]  overflow-hidden flex flex-col text-left uppercase font-[oswald] leading-none text-[14vw] sm:text-[11vw] md:text-[7.5vw]'
             >
                 {HERO_LINES.map((line) => (
                     <div key={line} className='overflow-hidden'>
-                        <div className='hero-line whitespace-nowrap'>{renderChars(line)}</div>
+                        <div className='  hero-line whitespace-nowrap'>{renderChars(line)}</div>
                     </div>
                 ))}
 

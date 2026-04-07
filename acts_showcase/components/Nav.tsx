@@ -21,18 +21,24 @@ const Nav = () => {
         falloff: 'gaussian' as const,
         style: { fontFamily: 'oswald, sans-serif' },
     };
-    useGSAP(()=>{
-        if(!navRef.current) return;
+    useGSAP(() => {
+        if (!navRef.current) return;
         const tl = gsap.timeline();
-        tl.from(navRef.current, { opacity: 0, duration: 1,delay:4.3 })
+        tl.from(navRef.current, { opacity: 0, duration: 1, delay: 4.3 })
         console.log("navAnimation running");
     })
     return (
-        <div ref={navRef}  className='z-50 relative mt-5 text-white min-w-11/12 flex items-center justify-between  h-16'>
-            <div className="left w-1/3 h-full flex items-center justify-start gap-4 ml-10">
+        <div ref={navRef} className='z-50 relative mt-5 text-white min-w-11/12 flex items-center justify-between  h-16'>
+            <div className="left w-1/3 h-full flex items-center justify-between gap-4 ml-10">
                 <Menu></Menu>
-                <div className="absolute  max-sm:left-17 md:left-19 "><Magnet magnetStrength={11}>
-                    <Image src={ACTS} className="ml-10 max-sm:w-50  md:h-60 md:w-60" alt="ACTS" /></Magnet></div>
+                <div className="max-sm:hidden absolute max-sm:left-17 md:left-19 ">
+                    <Magnet magnetStrength={20}>
+                        <Image src={ACTS} className="ml-10 max-sm:w-50  md:h-60 md:w-60" alt="ACTS" />
+                    </Magnet>
+                </div>
+                <div className="md:hidden absolute text-white font-[oswald] tracking-tighter text-center text-5xl left-17">
+                        ACTS
+                </div>
             </div>
             <div ref={containerRef} className="right z-30 max-md:hidden w-1/3 relative h-full md:flex items-center justify-end gap-4 mr-10">
                 <button onClick={() => {
