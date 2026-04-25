@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import gsap from "gsap";
-import VariableProximity from "./VariableProximity";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ShinyText from "./ShinyText";
