@@ -94,7 +94,7 @@ const Videos = () => {
         };
     }, []);
     return (
-        <div ref={wrapperRef} className="w-full h-2/3 relative flex items-start justify-end-safe ">
+        <div ref={wrapperRef} className="w-full h-2/3 max-sm:-translate-y-20 relative flex items-start justify-end-safe ">
             <div
                 ref={containerRef}
                 id="video-container"

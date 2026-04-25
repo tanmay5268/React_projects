@@ -78,7 +78,7 @@ const Gallery = () => {
     return (
         <div className='flex items-center justify-center'>
             <div className='text-white w-5/6 h-auto py-20'>
-            <Masonry items={items}
+            {/* <Masonry items={items}
                 ease="elastic.out"
                 duration={0.6}
                 stagger={0.14}
@@ -87,7 +87,7 @@ const Gallery = () => {
                 hoverScale={0.95}
                 blurToFocus
                 colorShiftOnHover>
-            </Masonry>
+            </Masonry> */}
         </div>
         </div>
 

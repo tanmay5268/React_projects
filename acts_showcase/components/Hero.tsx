@@ -88,11 +88,11 @@ const Hero = () => {
     }, { scope: aboutRef });
     function renderChars(line: string) {
         if (line === "real-world") {
-            return <ShinyText speed={2.5} spread={90} shineColor="#8466F3" color="white" direction="right" yoyo text={line} className="hero-char inline-block" />
+            return <ShinyText speed={2.5} spread={90} shineColor="#8466F3" color="white" direction="right" yoyo text={line} className=" hero-char inline-block" />
         }
         if (line === "tech experience") {
             return Array.from(line).map((char, index) => (
-                <span key={`${line}-${index}`} className='hero-char special inline-block'>
+                <span key={`${line}-${index}`} className='tracking-tight hero-char special inline-block'>
                     {char === " " ? "\u00A0" : char}
                 </span>
             ));
@@ -105,8 +105,8 @@ const Hero = () => {
     }
 
     return (
-        <div className='relative text-white h-180 max-sm:h-3/5  md:w-screen md:h-screen'>
-            <div ref={aboutRef} className=" text-white relative w-110 text-left font-extralight  text-2xl left-2 top-190 sm:left-10 md:left-16 max-sm:hidden">
+        <div className='relative  text-white h-180 max-sm:w-screen  max-sm:h-120  md:w-screen md:h-screen'>
+            {/* <div ref={aboutRef} className=" text-white relative w-110 text-left font-extralight  text-2xl left-2 top-190 sm:left-10 md:left-16 max-sm:hidden">
                 <VariableProximity
                 className=" text-extralight text-2xl left-2 top-190 sm:left-10 md:left-16 max-sm:hidden"
                     label="ACTS is a technical club at Guru Gobind Singh Indraprastha University (East Delhi Campus) that promotes a collaborative environment for learning and innovation. It also hosts career development sessions on resume building and interview preparation, helping students grow both technically and professionally."
@@ -116,14 +116,14 @@ const Hero = () => {
                     toFontVariationSettings="'wght' 700"
                 ></VariableProximity>
 
-            </div>
+            </div> */}
             <div
                 ref={heroRef}
-                className='absolute left-6 top-[26%] max-sm:left-4 max-sm:text-[14.7vw]  sm:left-10 md:left-[24%] lg:left-[32%]  overflow-hidden flex flex-col text-left uppercase font-[oswald] leading-none text-[14vw] sm:text-[11vw] md:text-[7.5vw]'
+                className='absolute max:sm:-translate-x-1/2 top-[26%] max-sm:left-4 max-sm:text-[14.7vw]  sm:left-10 md:left-[24%] lg:left-[32%]  overflow-hidden flex flex-col text-left uppercase font-[oswald] leading-none text-[14vw] sm:text-[11vw] md:text-[9vw]'
             >
                 {HERO_LINES.map((line) => (
                     <div key={line} className='overflow-hidden'>
-                        <div className='  hero-line whitespace-nowrap'>{renderChars(line)}</div>
+                        <div className=' hero-line whitespace-nowrap'>{renderChars(line)}</div>
                     </div>
                 ))}
 
