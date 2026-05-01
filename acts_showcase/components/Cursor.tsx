@@ -25,7 +25,7 @@ export const Cursor = () => {
     })
   return (
     <motion.div
-      className='pointer-events-none hidden bg-white max-sm:hidden  translate -translate-x-1/2 -translate-y-1/2 fixed mix-blend-exclusion z-50 h-5 w-5 rounded-full elem-cursor'
+      className='pointer-events-none hidden bg-white max-sm:hidden  translate -translate-x-1/2 -translate-y-1/2 fixed mix-blend-exclusion z-50 h-10 w-10 rounded-full elem-cursor'
       style={{
         left: smoothMouseMove.x,
         top: smoothMouseMove.y,}}

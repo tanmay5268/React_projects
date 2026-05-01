@@ -87,7 +87,7 @@ const Hero = () => {
     }, { scope: aboutRef });
     function renderChars(line: string) {
         if (line === "real-world") {
-            return <ShinyText speed={2.5} spread={90} shineColor="#8466F3" color="white" direction="right" yoyo text={line} className=" hero-char inline-block" />
+            return <ShinyText speed={2} spread={60} shineColor="#8466F3" color="#0084d1" direction="left" yoyo text={line} className=" hero-char inline-block" />
         }
         if (line === "tech experience") {
             return Array.from(line).map((char, index) => (

@@ -1,7 +1,5 @@
-import Gallery from '@/components/Gallery'
 import Hero from '@/components/Hero'
 import Video from '@/components/Video'
-
 const HomePage = () => {
 
   return (
@@ -9,7 +7,7 @@ const HomePage = () => {
         <Hero></Hero>
         <Video></Video>
         {/* <Gallery></Gallery> */}
-        <Gallery></Gallery>
+        {/* <Aboutwe></Aboutwe> */}
     </div>
   )
 }
